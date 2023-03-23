@@ -1,0 +1,72 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'com.huylv.pizzadelivery'
+    compileSdk defaultCompileSdkVersion
+
+    defaultConfig {
+        applicationId "com.huylv.pizzadelivery"
+        minSdk defaultMinSdkVersion
+        targetSdk defaultTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "com.huylv.pizzadelivery.AppTestRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+        testOptions {
+            execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        }
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility javaCompileVersion
+        targetCompatibility javaCompileVersion
+    }
+    kotlinOptions {
+        jvmTarget = jvmTarget
+    }
+}
+
+dependencies {
+    implementation(project(path: ":presentation-flavor"))
+    implementation(project(path: ":presentation-base"))
+    implementation(project(path: ":domain"))
+    implementation(project(path: ":data-remote"))
+    implementation(project(path: ":data-repository"))
+    implementation androidx.core
+    implementation androidx.appCompat
+    implementation androidx.viewModelKtx
+    implementation androidx.lifecycleRuntimeKtx
+    implementation androidx.constraintlayout
+    implementation androidx.navigationUiKtx
+    implementation androidx.navigationFragmentKtx
+    implementation material.material
+    implementation androidx.lifecycleRuntimeKtx
+    implementation di.hiltAndroid
+    kapt di.hiltCompiler
+    testImplementation test.junit
+    androidTestImplementation androidTest.junit
+    androidTestImplementation androidTest.espressoCore
+    androidTestImplementation androidTest.idlingResource
+    androidTestImplementation androidTest.core
+    androidTestImplementation androidTest.rules
+    androidTestImplementation androidTest.runner
+    androidTestImplementation androidTest.hilt
+    kaptAndroidTest androidTest.hiltCompiler
+    androidTestUtil androidTest.orchestrator
+}
