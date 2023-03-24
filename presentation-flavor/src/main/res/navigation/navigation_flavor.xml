@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/navigation_bill"
         android:name="com.huylv.presentation_flavor.ui.BillFragment"
-        android:label="@string/your_bill"
+        android:label="@string/order"
         tools:layout="@layout/fragment_bill">
         <argument
             android:name="bill"

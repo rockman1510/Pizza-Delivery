@@ -1,20 +1,19 @@
 package com.huylv.presentation_flavor.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.huylv.presentation_flavor.R
-import com.huylv.presentation_flavor.databinding.FragmentBillBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_bill.*
 
 @AndroidEntryPoint
 class BillFragment : Fragment() {
-
-    private lateinit var binding: FragmentBillBinding
 
     private val safeArgs: BillFragmentArgs by navArgs()
 
@@ -23,16 +22,21 @@ class BillFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bill, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_bill, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         safeArgs.bill.flavors?.let {
-            if (it.size == 2) {
-                binding.pizzaModel = safeArgs.bill
-            }
+            rvSelectedFlavor.layoutManager =
+                LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            val billAdapter = BillAdapter()
+            rvSelectedFlavor.adapter = billAdapter
+            billAdapter.submitList(it)
+            tvTotal.text = getString(R.string.total_price, safeArgs.bill.price.toString())
+        }
+        btClose.setOnClickListener {
+            (activity as Activity).onBackPressed()
         }
     }
 }

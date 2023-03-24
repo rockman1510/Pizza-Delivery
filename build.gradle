@@ -8,8 +8,8 @@ buildscript {
         defaultMinSdkVersion = 23
         versions = [
                 androidGradlePlugin: "7.2.2",
-                kotlin             : "1.5.31",
-                hilt               : "2.40.5",
+                kotlin             : "1.7.0",
+                hilt               : "2.42",
                 coreKtx            : "1.7.0",
                 appCompat          : "1.4.1",
                 lifecycleRuntimeKtx: "2.4.0",
@@ -86,7 +86,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$versions.androidGradlePlugin"
+        classpath gradlePlugins.android
         classpath gradlePlugins.kotlin
         classpath gradlePlugins.hilt
         classpath gradlePlugins.navigation

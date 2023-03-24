@@ -5,11 +5,12 @@ import com.huylv.domain.usecase.GetFlavorUseCase
 import com.huylv.presentation_base.mvi.MVIViewModel
 import com.huylv.presentation_base.mvi.UiState
 import com.huylv.presentation_flavor.model.FlavorModel
-import kotlinx.coroutines.flow.collect
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class MenuViewModel @Inject constructor(
     private val flavorUseCase: GetFlavorUseCase,
     private val flavorConverter: FlavorConverter

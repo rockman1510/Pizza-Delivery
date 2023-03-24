@@ -10,20 +10,17 @@ import com.huylv.presentation_flavor.R
 import com.huylv.presentation_flavor.model.FlavorModel
 import kotlinx.android.synthetic.main.layout_flavor_item.view.*
 
-class MenuAdapter : ListAdapter<FlavorModel, MenuAdapter.ViewHolder>(DiffCallBack()) {
-
+class BillAdapter : ListAdapter<FlavorModel, BillAdapter.ViewHolder>(DiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val rootView = LayoutInflater.from(parent.context).inflate(
-            R.layout.layout_flavor_item,
-            parent,
-            false
+            R.layout.layout_bill_item, parent, false
         )
         return ViewHolder(rootView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.updateView(position, getItem(position))
+        holder.updateView(getItem(position))
     }
 
     override fun getItemCount(): Int {
@@ -32,15 +29,8 @@ class MenuAdapter : ListAdapter<FlavorModel, MenuAdapter.ViewHolder>(DiffCallBac
 
 
     class ViewHolder(private val rootView: View) : RecyclerView.ViewHolder(rootView) {
-        fun updateView(position: Int, flavor: FlavorModel) {
-            if (position == 0)
-                rootView.llTitle.visibility = View.VISIBLE
-            else
-                rootView.llTitle.visibility = View.GONE
-
+        fun updateView(flavor: FlavorModel) {
             rootView.tvFlavor.text = flavor.name
-            rootView.tvPrice.text =
-                rootView.context.getString(R.string.price_str, flavor.price.toString())
         }
     }
 

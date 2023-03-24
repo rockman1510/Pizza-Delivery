@@ -10,7 +10,7 @@ abstract class MVIViewModel<DATA : Any, STATE : UiState<DATA>, ACTION : UiAction
     ViewModel() {
 
     private val _uiStateFlow: MutableStateFlow<STATE> by lazy { MutableStateFlow(initState()) }
-    val uiStateFlow: StateFlow<STATE> = _uiStateFlow
+    val uiStateFlow: StateFlow<STATE> = _uiStateFlow.asStateFlow()
     private val actionFlow: MutableSharedFlow<ACTION> = MutableSharedFlow()
     private val _singleEventChannel = Channel<EVENT>()
     val singleEventFlow = _singleEventChannel.receiveAsFlow()
@@ -35,7 +35,7 @@ abstract class MVIViewModel<DATA : Any, STATE : UiState<DATA>, ACTION : UiAction
 
     fun submitState(state: STATE) {
         viewModelScope.launch {
-            _uiStateFlow.value = state
+            _uiStateFlow.emit(state)
         }
     }
 
