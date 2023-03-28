@@ -23,13 +23,20 @@ object Utils {
         return ArrayAdapter(context, id, newData)
     }
 
-    fun showConfirmDialog(context: Context, title: String, message: String, onConfirm: () -> Unit) {
+    fun showConfirmDialog(
+        context: Context,
+        title: String,
+        message: String,
+        onConfirm: (isConfirm: Boolean) -> Unit) {
         AlertDialog.Builder(context)
             .setTitle(title).setMessage(message)
             .setPositiveButton(
                 R.string.confirm
-            ) { _, _ -> onConfirm.invoke() }.setNegativeButton(
+            ) { _, _ -> onConfirm.invoke(true) }.setNegativeButton(
                 R.string.cancel
-            ) { p0, _ -> p0?.dismiss() }.show()
+            ) { p0, _ ->
+                p0?.dismiss()
+                onConfirm.invoke(false)
+            }.show()
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -48,7 +49,14 @@ class MenuFragment : Fragment() {
         initViews()
         flavors = ArrayList()
         menuViewModel.submitAction(MenuUiAction.Load)
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenResumed {
+            totalPrice = 0.0F
+            updateTvTotalPrice(totalPrice)
+            spinner1.adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                ArrayList<String>()
+            )
             menuViewModel.uiStateFlow.collectLatest {
                 onState(it)
             }
@@ -141,6 +149,7 @@ class MenuFragment : Fragment() {
         btOrder.setOnClickListener {
             if (totalPrice > 0F) {
                 val pizzaModel = PizzaModel(generateSelectedFlavors(), totalPrice)
+                btOrder.isEnabled = false
                 performOrderConfirmation(pizzaModel)
             } else {
                 Toast.makeText(
@@ -170,8 +179,10 @@ class MenuFragment : Fragment() {
     }
 
     private fun performOrderConfirmation(pizzaModel: PizzaModel) {
-        fun onConfirmCallBack() {
-            findNavController().navigate(MenuFragmentDirections.goToBill(pizzaModel))
+        fun onConfirmCallBack(isConfirm: Boolean) {
+            btOrder.isEnabled = true
+            if (isConfirm)
+                findNavController().navigate(MenuFragmentDirections.goToBill(pizzaModel))
         }
         Utils.showConfirmDialog(
             requireContext(),
